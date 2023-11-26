@@ -51,7 +51,7 @@
       <router-link
         v-if="authenticated && roles && roles.superAdmin"
         v-slot="{ isActive }"
-        :to="{ name: 'users' }"
+        :to="{ name: 'view.users' }"
         @click="toggleSidebar"
       >
         <div
@@ -70,7 +70,7 @@
       <router-link
         v-if="authenticated && roles && roles.superAdmin"
         v-slot="{ isActive }"
-        :to="{ name: 'roles' }"
+        :to="{ name: 'view.roles' }"
         @click="toggleSidebar"
       >
         <div
@@ -89,7 +89,7 @@
       <router-link
         v-if="authenticated && roles && roles.superAdmin"
         v-slot="{ isActive }"
-        :to="{ name: 'permissions' }"
+        :to="{ name: 'view.permissions' }"
         @click="toggleSidebar"
       >
         <div

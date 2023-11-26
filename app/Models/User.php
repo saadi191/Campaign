@@ -28,6 +28,7 @@ class User extends Authenticatable implements ExportsPersonalData, MustVerifyEma
         'roles',
         'avatar',
         'providers',
+        'permissions',
     ];
 
     /**
@@ -97,6 +98,11 @@ class User extends Authenticatable implements ExportsPersonalData, MustVerifyEma
     public function getRolesAttribute()
     {
         return $this->getRoles();
+    }
+
+    public function getPermissionsAttribute()
+    {
+        return $this->getPermissions();
     }
 
     public function getAvatarAttribute()

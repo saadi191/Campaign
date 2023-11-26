@@ -23,7 +23,7 @@
           <router-link
             v-if="authenticated && roles && (roles.admin || roles.superAdmin)"
             v-slot="{ isActive }"
-            :to="{ name: 'admin.participants' }"
+            :to="{ name: 'view.participants' }"
             class="text-gray-500 hover:text-gray-900 dark:text-gray-300 dark:hover:text-gray-400"
           >
             <span

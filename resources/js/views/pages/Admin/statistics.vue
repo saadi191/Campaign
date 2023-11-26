@@ -23,7 +23,7 @@
           <router-link
             v-if="authenticated && roles && (roles.admin || roles.superAdmin)"
             v-slot="{ isActive }"
-            :to="{ name: 'admin.participants' }"
+            :to="{ name: 'view.statistics' }"
             class="text-gray-500 hover:text-gray-900 dark:text-gray-300 dark:hover:text-gray-400"
           >
             <span
@@ -82,7 +82,12 @@
           </h2>
         </header>
 
-        <BarChart :data="BarchartData" width="1000" height="248" />
+        <BarChart
+          v-if="BarchartData.labels.length > 0"
+          :data="BarchartData"
+          width="1000"
+          height="248"
+        />
       </div>
 
       <div
@@ -94,7 +99,12 @@
           </h2>
         </header>
 
-        <LocChart :data="LocChartData" width="1000" height="248" />
+        <LocChart
+          v-if="LocChartData.labels.length > 0"
+          :data="LocChartData"
+          width="1000"
+          height="248"
+        />
       </div>
     </div>
   </div>

@@ -24,6 +24,8 @@ class AuthController extends Controller
         $this->guard()->attempt($credentials);
         $token = $this->guard()->user()->createToken('auth-token')->plainTextToken;
 
+//        dd(auth()->user());
+
         return response()->json([
             'access_token' => $token,
             'token_type'   => 'Bearer',

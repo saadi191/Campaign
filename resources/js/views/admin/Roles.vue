@@ -23,7 +23,7 @@
           <router-link
             v-if="authenticated && roles && (roles.admin || roles.superAdmin)"
             v-slot="{ isActive }"
-            :to="{ name: 'roles' }"
+            :to="{ name: 'view.roles' }"
             class="text-gray-500 hover:text-gray-900 dark:text-gray-300 dark:hover:text-gray-400"
           >
             <span
@@ -43,20 +43,25 @@
         Roles ✨
       </h1>
     </div>
-    <Button
-      v-tippy="'Create Role'"
-      :disabled="showCreateRoleForm || !dataReady"
-      class="btn bg-indigo-500 hover:bg-indigo-600 text-white float-right"
-      style="margin-right: 5%"
-      @click="triggerCreateRole"
-    >
-      <svg class="w-4 h-4 fill-current opacity-50 shrink-0" viewBox="0 0 16 16">
-        <path
-          d="M15 7H9V1c0-.6-.4-1-1-1S7 .4 7 1v6H1c-.6 0-1 .4-1 1s.4 1 1 1h6v6c0 .6.4 1 1 1s1-.4 1-1V9h6c.6 0 1-.4 1-1s-.4-1-1-1z"
-        />
-      </svg>
-      <span class="xs:block ml-2">Add Roles</span>
-    </Button>
+    <div v-if="permissions.some((p) => p.slug === 'create.roles')">
+      <Button
+        v-tippy="'Create Role'"
+        :disabled="showCreateRoleForm || !dataReady"
+        class="btn bg-indigo-500 hover:bg-indigo-600 text-white float-right"
+        style="margin-right: 5%"
+        @click="triggerCreateRole"
+      >
+        <svg
+          class="w-4 h-4 fill-current opacity-50 shrink-0"
+          viewBox="0 0 16 16"
+        >
+          <path
+            d="M15 7H9V1c0-.6-.4-1-1-1S7 .4 7 1v6H1c-.6 0-1 .4-1 1s.4 1 1 1h6v6c0 .6.4 1 1 1s1-.4 1-1V9h6c.6 0 1-.4 1-1s-.4-1-1-1z"
+          />
+        </svg>
+        <span class="xs:block ml-2">Add Roles</span>
+      </Button>
+    </div>
     <RolesTable
       :roles-data="rolesData"
       :pagination="pagination"
@@ -123,6 +128,7 @@ export default {
       authenticated: 'auth/authenticated',
       user: 'auth/user',
       roles: 'auth/roles',
+      permissions: 'auth/permissions',
     }),
   },
   watch: {},

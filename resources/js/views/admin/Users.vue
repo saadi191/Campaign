@@ -24,7 +24,7 @@
           <router-link
             v-if="authenticated && roles && (roles.admin || roles.superAdmin)"
             v-slot="{ isActive }"
-            :to="{ name: 'users' }"
+            :to="{ name: 'view.users' }"
             class="text-gray-500 hover:text-gray-900 dark:text-gray-300 dark:hover:text-gray-400"
           >
             <span
@@ -52,20 +52,25 @@
         Users ✨
       </h1>
     </div>
-    <Button
-      v-tippy="'Create User'"
-      class="btn bg-indigo-500 hover:bg-indigo-600 text-white float-right"
-      :disabled="showCreateUserForm || !dataReady"
-      style="margin-right: 5%"
-      @click="triggerCreateUser"
-    >
-      <svg class="w-4 h-4 fill-current opacity-50 shrink-0" viewBox="0 0 16 16">
-        <path
-          d="M15 7H9V1c0-.6-.4-1-1-1S7 .4 7 1v6H1c-.6 0-1 .4-1 1s.4 1 1 1h6v6c0 .6.4 1 1 1s1-.4 1-1V9h6c.6 0 1-.4 1-1s-.4-1-1-1z"
-        />
-      </svg>
-      <span class="xs:block ml-2">Add Users</span>
-    </Button>
+    <div v-if="permissions.some((p) => p.slug === 'create.users')">
+      <Button
+        v-tippy="'Create User'"
+        class="btn bg-indigo-500 hover:bg-indigo-600 text-white float-right"
+        :disabled="showCreateUserForm || !dataReady"
+        style="margin-right: 5%"
+        @click="triggerCreateUser"
+      >
+        <svg
+          class="w-4 h-4 fill-current opacity-50 shrink-0"
+          viewBox="0 0 16 16"
+        >
+          <path
+            d="M15 7H9V1c0-.6-.4-1-1-1S7 .4 7 1v6H1c-.6 0-1 .4-1 1s.4 1 1 1h6v6c0 .6.4 1 1 1s1-.4 1-1V9h6c.6 0 1-.4 1-1s-.4-1-1-1z"
+          />
+        </svg>
+        <span class="xs:block ml-2">Add Users</span>
+      </Button>
+    </div>
 
     <!--    <AppButton-->
     <!--      v-tippy="'Create User'"-->
@@ -131,10 +136,12 @@ import axios from 'axios';
 import PerPage from '@components/PerPage.vue';
 import UsersTable from '@components/admin/UsersTable.vue';
 import UserFormModal from '@components/users/UserFormModal.vue';
+import AppButton from '@/components/common/AppButton.vue';
 
 export default {
   name: 'Users',
   components: {
+    AppButton,
     ChevronRightIcon,
     // PerPage,
     UsersTable,
@@ -166,6 +173,7 @@ export default {
       authenticated: 'auth/authenticated',
       user: 'auth/user',
       roles: 'auth/roles',
+      permissions: 'auth/permissions',
     }),
   },
   watch: {},

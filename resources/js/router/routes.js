@@ -130,116 +130,125 @@ export default [
       },
       {
         path: 'dashboard',
-        name: 'admin.dashboard',
+        name: 'view.dashboard',
         component: AdminDashboard,
-        meta: {
-          middleware: [roleSuperAdmin],
-        },
+        // meta: {
+        //   middleware: [roleSuperAdmin],
+        // },
       },
 
       {
         path: 'participants',
-        name: 'admin.participants',
+        name: 'view.participants',
         component: Participants,
-        meta: {
-          middleware: [roleSuperAdmin],
-        },
+        // meta: {
+        //   middleware: [roleSuperAdmin],
+        // },
       },
 
       {
         path: 'moderation/pending',
-        name: 'admin.moderation.pending',
+        name: 'view.moderation.pending',
         component: ModerationPending,
-        meta: {
-          middleware: [roleSuperAdmin],
-        },
+        // meta: {
+        //   middleware: [roleSuperAdmin],
+        // },
       },
 
       {
         path: 'moderation/approved',
-        name: 'admin.moderation.approved',
+        name: 'view.moderation.approved',
         component: ModerationApproved,
-        meta: {
-          middleware: [roleSuperAdmin],
-        },
+        // meta: {
+        //   middleware: [roleSuperAdmin],
+        // },
       },
 
       {
         path: 'moderation/rejected',
-        name: 'admin.moderation.rejected',
+        name: 'view.moderation.rejected',
         component: ModerationRejected,
-        meta: {
-          middleware: [roleSuperAdmin],
-        },
+        // meta: {
+        //   middleware: [roleSuperAdmin],
+        // },
       },
 
       {
         path: 'winners/claimed',
-        name: 'admin.winners.claimed',
+        name: 'view.winners.claimed',
         component: WinnersClaimed,
-        meta: {
-          middleware: [roleSuperAdmin],
-        },
+        // meta: {
+        //   middleware: [roleSuperAdmin],
+        // },
       },
       {
         path: 'winners/pending',
-        name: 'admin.winners.pending',
+        name: 'view.winners.pending',
         component: WinnersPending,
-        meta: {
-          middleware: [roleSuperAdmin],
-        },
+        // meta: {
+        //   middleware: [roleSuperAdmin],
+        // },
       },
 
       {
         path: 'helpdesk',
-        name: 'admin.helpdesk',
+        name: 'view.helpdesk',
         component: HelpDesk,
-        meta: {
-          middleware: [roleSuperAdmin],
-        },
+        // meta: {
+        //   middleware: [roleSuperAdmin],
+        // },
       },
 
       {
         path: 'exports',
-        name: 'admin.exports',
+        name: 'view.exports',
         component: Exports,
-        meta: {
-          middleware: [roleSuperAdmin],
-        },
+        // meta: {
+        //   middleware: [roleSuperAdmin],
+        // },
       },
 
       {
         path: 'inventory',
-        name: 'admin.inventory',
+        name: 'view.inventory',
         component: Inventory,
-        meta: {
-          middleware: [roleSuperAdmin],
-        },
+        // meta: {
+        //   middleware: [roleSuperAdmin],
+        // },
       },
 
       {
         path: 'statistics',
-        name: 'admin.statistics',
+        name: 'view.statistics',
         component: Statistics,
-        meta: {
-          middleware: [roleSuperAdmin],
-        },
+        // meta: {
+        //   middleware: [roleSuperAdmin],
+        // },
       },
 
       {
         path: 'users',
-        name: 'users',
+        name: 'view.users',
         component: Users,
+        // meta: {
+        //   middleware: [roleAdmin],
+        // },
       },
       {
         path: 'roles',
-        name: 'roles',
+        name: 'view.roles',
         component: Roles,
+        // meta: {
+        //   middleware: [roleSuperAdmin],
+        // },
       },
       {
         path: 'permissions',
-        name: 'permissions',
+        name: 'view.permissions',
         component: Permissions,
+        // meta: {
+        //   middleware: [roleSuperAdmin],
+        // },
       },
       {
         path: 'phpinfo',

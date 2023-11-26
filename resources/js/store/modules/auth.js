@@ -7,6 +7,8 @@ export default {
   namespaced: true,
   state() {
     return {
+      permissions: [],
+      RequiredPermissions: [],
       authenticated: false,
       user: null,
       roles: {
@@ -45,6 +47,12 @@ export default {
     };
   },
   getters: {
+    permissions(state) {
+      return state.permissions;
+    },
+    RequiredPermissions(state) {
+      return state.RequiredPermissions;
+    },
     user(state) {
       return state.user;
     },
@@ -121,7 +129,9 @@ export default {
           user: false,
         };
       }
+      state.permissions = payload ? payload.permissions || [] : [];
     },
+
     SET_THEME(state, payload = null) {
       if (payload) {
         document.documentElement.classList.add('dark');

@@ -238,6 +238,7 @@
           </AppButton>
 
           <AppButton
+            v-if="permissions.some((p) => p.slug === 'edit.roles')"
             warning
             :disabled="locked"
             :loading="!dataReady"
@@ -255,6 +256,7 @@
           </AppButton>
 
           <AppButton
+            v-if="permissions.some((p) => p.slug === 'delete.roles')"
             danger
             :disabled="locked || (role && role.users && role.users.length > 0)"
             :loading="!dataReady"
@@ -283,7 +285,7 @@ import {
   UserCircleIcon,
 } from '@heroicons/vue/24/outline';
 import CircleSvg from '@components/CircleSvg.vue';
-import { mapActions } from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
 import AppButton from '@/components/common/AppButton.vue';
 
 export default {
@@ -310,7 +312,14 @@ export default {
       locked: true,
     };
   },
-  computed: {},
+  computed: {
+    ...mapGetters({
+      authenticated: 'auth/authenticated',
+      user: 'auth/user',
+      roles: 'auth/roles',
+      permissions: 'auth/permissions',
+    }),
+  },
   watch: {
     lockJiggled(jiggled) {
       this.locked = true;

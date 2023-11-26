@@ -80,9 +80,15 @@
         <div>
           <ul class="mt-3">
             <router-link
-              v-if="authenticated && roles && roles.superAdmin"
+              v-if="
+                authenticated &&
+                roles &&
+                permissions.some(
+                  (permission) => permission.slug === 'view.dashboard',
+                )
+              "
               v-slot="{ isActive, isExactActive }"
-              :to="{ name: 'admin.dashboard' }"
+              :to="{ name: 'view.dashboard' }"
               @click="toggleSidebar"
             >
               <li
@@ -119,48 +125,54 @@
               </li>
             </router-link>
 
-            <router-link
-              v-if="authenticated && roles && (roles.admin || roles.superAdmin)"
-              v-slot="{ isActive, isExactActive }"
-              :to="{ name: 'admin' }"
-              @click="toggleSidebar"
-            >
-              <li
-                class="px-3 py-2 rounded-sm mb-0.5 last:mb-0"
-                :class="{ 'bg-slate-900': isExactActive }"
-              >
-                <a
-                  class="block text-slate-200 hover:text-white truncate transition duration-150"
-                  :class="isExactActive && 'hover:text-slate-200'"
-                  :href="href"
-                  @click="navigate"
-                >
-                  <div class="flex items-center">
-                    <svg class="shrink-0 h-6 w-6" viewBox="0 0 24 24">
-                      <path
-                        class="fill-current text-slate-600"
-                        :class="isExactActive && 'text-indigo-500'"
-                        d="M1 3h22v20H1z"
-                      />
-                      <path
-                        class="fill-current text-slate-400"
-                        :class="isExactActive && 'text-indigo-300'"
-                        d="M21 3h2v4H1V3h2V1h4v2h10V1h4v2Z"
-                      />
-                    </svg>
-                    <span
-                      class="text-sm font-medium ml-3 lg:opacity-100 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200"
-                      >Admin</span
-                    >
-                  </div>
-                </a>
-              </li>
-            </router-link>
+            <!--            <router-link-->
+            <!--              v-if="authenticated && roles && (roles.admin || roles.superAdmin)"-->
+            <!--              v-slot="{ isActive, isExactActive }"-->
+            <!--              :to="{ name: 'admin' }"-->
+            <!--              @click="toggleSidebar"-->
+            <!--            >-->
+            <!--              <li-->
+            <!--                class="px-3 py-2 rounded-sm mb-0.5 last:mb-0"-->
+            <!--                :class="{ 'bg-slate-900': isExactActive }"-->
+            <!--              >-->
+            <!--                <a-->
+            <!--                  class="block text-slate-200 hover:text-white truncate transition duration-150"-->
+            <!--                  :class="isExactActive && 'hover:text-slate-200'"-->
+            <!--                  :href="href"-->
+            <!--                  @click="navigate"-->
+            <!--                >-->
+            <!--                  <div class="flex items-center">-->
+            <!--                    <svg class="shrink-0 h-6 w-6" viewBox="0 0 24 24">-->
+            <!--                      <path-->
+            <!--                        class="fill-current text-slate-600"-->
+            <!--                        :class="isExactActive && 'text-indigo-500'"-->
+            <!--                        d="M1 3h22v20H1z"-->
+            <!--                      />-->
+            <!--                      <path-->
+            <!--                        class="fill-current text-slate-400"-->
+            <!--                        :class="isExactActive && 'text-indigo-300'"-->
+            <!--                        d="M21 3h2v4H1V3h2V1h4v2h10V1h4v2Z"-->
+            <!--                      />-->
+            <!--                    </svg>-->
+            <!--                    <span-->
+            <!--                      class="text-sm font-medium ml-3 lg:opacity-100 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200"-->
+            <!--                      >Admin</span-->
+            <!--                    >-->
+            <!--                  </div>-->
+            <!--                </a>-->
+            <!--              </li>-->
+            <!--            </router-link>-->
 
             <router-link
-              v-if="authenticated && roles && roles.superAdmin"
+              v-if="
+                authenticated &&
+                roles &&
+                permissions.some(
+                  (permission) => permission.slug === 'view.users',
+                )
+              "
               v-slot="{ isActive, isExactActive }"
-              :to="{ name: 'users' }"
+              :to="{ name: 'view.users' }"
               @click="toggleSidebar"
             >
               <li
@@ -194,9 +206,15 @@
             </router-link>
 
             <router-link
-              v-if="authenticated && roles && roles.superAdmin"
+              v-if="
+                authenticated &&
+                roles &&
+                permissions.some(
+                  (permission) => permission.slug === 'view.roles',
+                )
+              "
               v-slot="{ isActive, isExactActive }"
-              :to="{ name: 'roles' }"
+              :to="{ name: 'view.roles' }"
               @click="toggleSidebar"
             >
               <li
@@ -234,9 +252,15 @@
             </router-link>
 
             <router-link
-              v-if="authenticated && roles && roles.superAdmin"
+              v-if="
+                authenticated &&
+                roles &&
+                permissions.some(
+                  (permission) => permission.slug === 'view.permissions',
+                )
+              "
               v-slot="{ isActive, isExactActive }"
-              :to="{ name: 'phpinfo' }"
+              :to="{ name: 'view.permissions' }"
               @click="toggleSidebar"
             >
               <li
@@ -251,83 +275,119 @@
                 >
                   <div class="flex items-center">
                     <svg class="shrink-0 h-6 w-6" viewBox="0 0 24 24">
-                      <circle
-                        class="fill-current text-slate-400"
-                        cx="18.5"
-                        cy="5.5"
-                        r="4.5"
-                      ></circle>
-                      <circle
+                      <path
                         class="fill-current text-slate-600"
-                        cx="5.5"
-                        cy="5.5"
-                        r="4.5"
-                      ></circle>
-                      <circle
-                        class="fill-current text-slate-600"
-                        cx="18.5"
-                        cy="18.5"
-                        r="4.5"
-                      ></circle>
-                      <circle
+                        d="M18.974 8H22a2 2 0 012 2v6h-2v5a1 1 0 01-1 1h-2a1 1 0 01-1-1v-5h-2v-6a2 2 0 012-2h.974zM20 7a2 2 0 11-.001-3.999A2 2 0 0120 7zM2.974 8H6a2 2 0 012 2v6H6v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5H0v-6a2 2 0 012-2h.974zM4 7a2 2 0 11-.001-3.999A2 2 0 014 7z"
+                      ></path>
+                      <path
                         class="fill-current text-slate-400"
-                        cx="5.5"
-                        cy="18.5"
-                        r="4.5"
-                      ></circle>
+                        d="M12 6a3 3 0 110-6 3 3 0 010 6zm2 18h-4a1 1 0 01-1-1v-6H6v-6a3 3 0 013-3h6a3 3 0 013 3v6h-3v6a1 1 0 01-1 1z"
+                      ></path>
                     </svg>
                     <span
                       class="text-sm font-medium ml-3 lg:opacity-100 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200"
-                      >Server Info</span
+                      >Permissions</span
                     >
                   </div>
                 </a>
               </li>
             </router-link>
 
-            <router-link
-              v-if="authenticated && roles && roles.superAdmin"
-              v-slot="{ isActive, isExactActive }"
-              :to="{ name: 'app-settings' }"
-              @click="toggleSidebar"
-            >
-              <li
-                class="px-3 py-2 rounded-sm mb-0.5 last:mb-0"
-                :class="{ 'bg-slate-900': isExactActive }"
-              >
-                <a
-                  class="block text-slate-200 hover:text-white truncate transition duration-150"
-                  :class="isExactActive && 'hover:text-slate-200'"
-                  :href="href"
-                  @click="navigate"
-                >
-                  <div class="flex items-center">
-                    <svg class="shrink-0 h-6 w-6" viewBox="0 0 24 24">
-                      <path
-                        class="fill-current text-slate-600"
-                        d="M19.714 14.7l-7.007 7.007-1.414-1.414 7.007-7.007c-.195-.4-.298-.84-.3-1.286a3 3 0 113 3 2.969 2.969 0 01-1.286-.3z"
-                      ></path>
-                      <path
-                        class="fill-current text-slate-400"
-                        d="M10.714 18.3c.4-.195.84-.298 1.286-.3a3 3 0 11-3 3c.002-.446.105-.885.3-1.286l-6.007-6.007 1.414-1.414 6.007 6.007z"
-                      ></path>
-                      <path
-                        class="fill-current text-slate-600"
-                        d="M5.7 10.714c.195.4.298.84.3 1.286a3 3 0 11-3-3c.446.002.885.105 1.286.3l7.007-7.007 1.414 1.414L5.7 10.714z"
-                      ></path>
-                      <path
-                        class="fill-current text-slate-400"
-                        d="M19.707 9.292a3.012 3.012 0 00-1.415 1.415L13.286 5.7c-.4.195-.84.298-1.286.3a3 3 0 113-3 2.969 2.969 0 01-.3 1.286l5.007 5.006z"
-                      ></path>
-                    </svg>
-                    <span
-                      class="text-sm font-medium ml-3 lg:opacity-100 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200"
-                      >App-Settings</span
-                    >
-                  </div>
-                </a>
-              </li>
-            </router-link>
+            <!--            <router-link-->
+            <!--              v-if="authenticated && roles && roles.superAdmin"-->
+            <!--              v-slot="{ isActive, isExactActive }"-->
+            <!--              :to="{ name: 'phpinfo' }"-->
+            <!--              @click="toggleSidebar"-->
+            <!--            >-->
+            <!--              <li-->
+            <!--                class="px-3 py-2 rounded-sm mb-0.5 last:mb-0"-->
+            <!--                :class="{ 'bg-slate-900': isExactActive }"-->
+            <!--              >-->
+            <!--                <a-->
+            <!--                  class="block text-slate-200 hover:text-white truncate transition duration-150"-->
+            <!--                  :class="isExactActive && 'hover:text-slate-200'"-->
+            <!--                  :href="href"-->
+            <!--                  @click="navigate"-->
+            <!--                >-->
+            <!--                  <div class="flex items-center">-->
+            <!--                    <svg class="shrink-0 h-6 w-6" viewBox="0 0 24 24">-->
+            <!--                      <circle-->
+            <!--                        class="fill-current text-slate-400"-->
+            <!--                        cx="18.5"-->
+            <!--                        cy="5.5"-->
+            <!--                        r="4.5"-->
+            <!--                      ></circle>-->
+            <!--                      <circle-->
+            <!--                        class="fill-current text-slate-600"-->
+            <!--                        cx="5.5"-->
+            <!--                        cy="5.5"-->
+            <!--                        r="4.5"-->
+            <!--                      ></circle>-->
+            <!--                      <circle-->
+            <!--                        class="fill-current text-slate-600"-->
+            <!--                        cx="18.5"-->
+            <!--                        cy="18.5"-->
+            <!--                        r="4.5"-->
+            <!--                      ></circle>-->
+            <!--                      <circle-->
+            <!--                        class="fill-current text-slate-400"-->
+            <!--                        cx="5.5"-->
+            <!--                        cy="18.5"-->
+            <!--                        r="4.5"-->
+            <!--                      ></circle>-->
+            <!--                    </svg>-->
+            <!--                    <span-->
+            <!--                      class="text-sm font-medium ml-3 lg:opacity-100 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200"-->
+            <!--                      >Server Info</span-->
+            <!--                    >-->
+            <!--                  </div>-->
+            <!--                </a>-->
+            <!--              </li>-->
+            <!--            </router-link>-->
+
+            <!--            <router-link-->
+            <!--              v-if="authenticated && roles && roles.superAdmin"-->
+            <!--              v-slot="{ isActive, isExactActive }"-->
+            <!--              :to="{ name: 'app-settings' }"-->
+            <!--              @click="toggleSidebar"-->
+            <!--            >-->
+            <!--              <li-->
+            <!--                class="px-3 py-2 rounded-sm mb-0.5 last:mb-0"-->
+            <!--                :class="{ 'bg-slate-900': isExactActive }"-->
+            <!--              >-->
+            <!--                <a-->
+            <!--                  class="block text-slate-200 hover:text-white truncate transition duration-150"-->
+            <!--                  :class="isExactActive && 'hover:text-slate-200'"-->
+            <!--                  :href="href"-->
+            <!--                  @click="navigate"-->
+            <!--                >-->
+            <!--                  <div class="flex items-center">-->
+            <!--                    <svg class="shrink-0 h-6 w-6" viewBox="0 0 24 24">-->
+            <!--                      <path-->
+            <!--                        class="fill-current text-slate-600"-->
+            <!--                        d="M19.714 14.7l-7.007 7.007-1.414-1.414 7.007-7.007c-.195-.4-.298-.84-.3-1.286a3 3 0 113 3 2.969 2.969 0 01-1.286-.3z"-->
+            <!--                      ></path>-->
+            <!--                      <path-->
+            <!--                        class="fill-current text-slate-400"-->
+            <!--                        d="M10.714 18.3c.4-.195.84-.298 1.286-.3a3 3 0 11-3 3c.002-.446.105-.885.3-1.286l-6.007-6.007 1.414-1.414 6.007 6.007z"-->
+            <!--                      ></path>-->
+            <!--                      <path-->
+            <!--                        class="fill-current text-slate-600"-->
+            <!--                        d="M5.7 10.714c.195.4.298.84.3 1.286a3 3 0 11-3-3c.446.002.885.105 1.286.3l7.007-7.007 1.414 1.414L5.7 10.714z"-->
+            <!--                      ></path>-->
+            <!--                      <path-->
+            <!--                        class="fill-current text-slate-400"-->
+            <!--                        d="M19.707 9.292a3.012 3.012 0 00-1.415 1.415L13.286 5.7c-.4.195-.84.298-1.286.3a3 3 0 113-3 2.969 2.969 0 01-.3 1.286l5.007 5.006z"-->
+            <!--                      ></path>-->
+            <!--                    </svg>-->
+            <!--                    <span-->
+            <!--                      class="text-sm font-medium ml-3 lg:opacity-100 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200"-->
+            <!--                      >App-Settings</span-->
+            <!--                    >-->
+            <!--                  </div>-->
+            <!--                </a>-->
+            <!--              </li>-->
+            <!--            </router-link>-->
 
             <router-link
               v-if="authenticated && roles && roles.user"
@@ -418,9 +478,15 @@
             </router-link>
 
             <router-link
-              v-if="authenticated && roles && roles.superAdmin"
+              v-if="
+                authenticated &&
+                roles &&
+                permissions.some(
+                  (permission) => permission.slug === 'view.participants',
+                )
+              "
               v-slot="{ isActive, isExactActive }"
-              :to="{ name: 'admin.participants' }"
+              :to="{ name: 'view.participants' }"
               @click="toggleSidebar"
             >
               <li
@@ -453,7 +519,16 @@
               </li>
             </router-link>
 
-            <SidebarLinkGroup v-slot="parentLink">
+            <SidebarLinkGroup
+              v-if="
+                authenticated &&
+                roles &&
+                permissions.some(
+                  (permission) => permission.slug === 'view.moderation',
+                )
+              "
+              v-slot="parentLink"
+            >
               <a
                 class="block text-slate-200 hover:text-white truncate transition duration-150"
                 :class="
@@ -501,7 +576,7 @@
                 <ul class="pl-9 mt-1" :class="!parentLink.expanded && 'hidden'">
                   <router-link
                     v-slot="{ href, navigate, isExactActive }"
-                    :to="{ name: 'admin.moderation.pending' }"
+                    :to="{ name: 'view.moderation.pending' }"
                     custom
                   >
                     <li class="mb-1 last:mb-0">
@@ -520,7 +595,7 @@
                   </router-link>
                   <router-link
                     v-slot="{ href, navigate, isExactActive }"
-                    :to="{ name: 'admin.moderation.approved' }"
+                    :to="{ name: 'view.moderation.approved' }"
                     custom
                   >
                     <li class="mb-1 last:mb-0">
@@ -539,7 +614,7 @@
                   </router-link>
                   <router-link
                     v-slot="{ href, navigate, isExactActive }"
-                    :to="{ name: 'admin.moderation.rejected' }"
+                    :to="{ name: 'view.moderation.rejected' }"
                     custom
                   >
                     <li class="mb-1 last:mb-0">
@@ -560,7 +635,16 @@
               </div>
             </SidebarLinkGroup>
 
-            <SidebarLinkGroup v-slot="parentLink">
+            <SidebarLinkGroup
+              v-if="
+                authenticated &&
+                roles &&
+                permissions.some(
+                  (permission) => permission.slug === 'view.winners',
+                )
+              "
+              v-slot="parentLink"
+            >
               <a
                 class="block text-slate-200 hover:text-white truncate transition duration-150"
                 :class="
@@ -610,7 +694,7 @@
                 <ul class="pl-9 mt-1" :class="!parentLink.expanded && 'hidden'">
                   <router-link
                     v-slot="{ href, navigate, isExactActive }"
-                    :to="{ name: 'admin.winners.claimed' }"
+                    :to="{ name: 'view.winners.claimed' }"
                     custom
                   >
                     <li class="mb-1 last:mb-0">
@@ -629,7 +713,7 @@
                   </router-link>
                   <router-link
                     v-slot="{ href, navigate, isExactActive }"
-                    :to="{ name: 'admin.winners.pending' }"
+                    :to="{ name: 'view.winners.pending' }"
                     custom
                   >
                     <li class="mb-1 last:mb-0">
@@ -651,9 +735,15 @@
             </SidebarLinkGroup>
 
             <router-link
-              v-if="authenticated && roles && roles.superAdmin"
+              v-if="
+                authenticated &&
+                roles &&
+                permissions.some(
+                  (permission) => permission.slug === 'view.helpdesk',
+                )
+              "
               v-slot="{ isActive, isExactActive }"
-              :to="{ name: 'admin.helpdesk' }"
+              :to="{ name: 'view.helpdesk' }"
               @click="toggleSidebar"
             >
               <li
@@ -703,9 +793,15 @@
             </router-link>
 
             <router-link
-              v-if="authenticated && roles && roles.superAdmin"
+              v-if="
+                authenticated &&
+                roles &&
+                permissions.some(
+                  (permission) => permission.slug === 'view.exports',
+                )
+              "
               v-slot="{ isActive, isExactActive }"
-              :to="{ name: 'admin.exports' }"
+              :to="{ name: 'view.exports' }"
               @click="toggleSidebar"
             >
               <li
@@ -755,9 +851,15 @@
             </router-link>
 
             <router-link
-              v-if="authenticated && roles && roles.superAdmin"
+              v-if="
+                authenticated &&
+                roles &&
+                permissions.some(
+                  (permission) => permission.slug === 'view.inventory',
+                )
+              "
               v-slot="{ isActive, isExactActive }"
-              :to="{ name: 'admin.inventory' }"
+              :to="{ name: 'view.inventory' }"
               @click="toggleSidebar"
             >
               <li
@@ -807,9 +909,15 @@
             </router-link>
 
             <router-link
-              v-if="authenticated && roles && roles.superAdmin"
+              v-if="
+                authenticated &&
+                roles &&
+                permissions.some(
+                  (permission) => permission.slug === 'view.statistics',
+                )
+              "
               v-slot="{ isActive, isExactActive }"
-              :to="{ name: 'admin.statistics' }"
+              :to="{ name: 'view.statistics' }"
               @click="toggleSidebar"
             >
               <li
@@ -952,10 +1060,15 @@ export default {
       authenticated: 'auth/authenticated',
       user: 'auth/user',
       roles: 'auth/roles',
+      permissions: 'auth/permissions',
     }),
     currentRouteName() {
       return this.$route.name;
     },
+  },
+  mounted() {
+    console.log('check', this.permissions);
+    console.log('check1', this.roles);
   },
   methods: {
     toggleDropdown() {

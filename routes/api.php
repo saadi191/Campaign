@@ -29,6 +29,7 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+Route::get('/get/permissions', [PermissionsController::class, 'getPermissions']);
 
 Route::group(['middleware' => ['forceHTTPS', 'activity']], function () {
     Route::post('/verify-email/{id}/{hash}', [VerificationController::class, 'verify'])->name('verify');
@@ -45,6 +46,7 @@ Route::group(['middleware' => ['forceHTTPS', 'activity']], function () {
         Route::post('/forgot-password', ForgotPasswordController::class);
         Route::post('/reset-password', ResetPasswordController::class);
     });
+
 
     Route::middleware('auth:sanctum')->group(function () {
         Route::patch('/profile', [ProfileController::class, 'profile']);
@@ -83,6 +85,7 @@ Route::group(['middleware' => ['forceHTTPS', 'activity']], function () {
             Route::get('/locations', [AdminController::class, 'locations']);
             Route::post('/participants', [AdminController::class, 'allParticipants']);
             Route::post('/participant/leaflet/remove/{id}', [AdminController::class, 'RemoveParticipantLeaflet']);
+            Route::post('/participant/remove/{id}', [AdminController::class, 'RemoveParticipant']);
 
 
             Route::post('/moderation/approved', [AdminController::class, 'approvedModeration']);
@@ -104,18 +107,18 @@ Route::group(['middleware' => ['forceHTTPS', 'activity']], function () {
             Route::post('/inventory', [AdminController::class, 'inventory']);
             Route::post('/inventory/update', [AdminController::class, 'inventoryUpdate']);
 
-            Route::post('/participant/remove/{id}', [AdminController::class, 'RemoveParticipant']);
 
 
+
+            Route::get('/mobile/week/{week}', [AdminController::class, 'all_week_numbers']);
+            Route::get('/export/all/tru', [AdminController::class, 'ExportTru']);
+            Route::get('/export/gifts', [AdminController::class, 'ExportGifts']);
+            Route::get('/export/winners/pending', [AdminController::class, 'ExportPendingWinners']);
+            Route::get('/export/winners/claimed', [AdminController::class, 'ExportClaimedWinners']);
+            Route::get('/export/winners/all', [AdminController::class, 'ExportAllWinners']);
 
 
         });
-//        Route::get('/admin/stat', [AdminController::class, 'stat']);
-//        Route::get('/admin/locations', [AdminController::class, 'locations']);
-//        Route::post('/admin/participants', [AdminController::class, 'allParticipants']);
-//        Route::post('/admin/participant/leaflet/remove/{id}', [AdminController::class, 'RemoveParticipantLeaflet']);
-//        Route::post('/admin/moderation/approved', [AdminController::class, 'approvedModeration']);
-//        Route::post('/admin/moderation/rejected', [AdminController::class, 'rejectedModeration']);
 
 
     });

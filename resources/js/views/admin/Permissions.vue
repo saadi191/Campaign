@@ -2,6 +2,7 @@
   <div
     id="permissions"
     class="bg-white p-3 dark:bg-slate-800 dark:text-gray-200"
+    style="background-color: #f1f5f9"
   >
     <nav class="mb-6 text-sm font-semibold" aria-label="Breadcrumb">
       <ol class="inline-flex list-none p-0">
@@ -22,7 +23,7 @@
           <router-link
             v-if="authenticated && roles && (roles.admin || roles.superAdmin)"
             v-slot="{ isActive }"
-            :to="{ name: 'permissions' }"
+            :to="{ name: 'view.permissions' }"
             class="text-gray-500 hover:text-gray-900 dark:text-gray-300 dark:hover:text-gray-400"
           >
             <span
@@ -46,6 +47,12 @@
       />
     </nav>
 
+    <div class="mb-1 sm:mb-0 ml-10">
+      <h1 class="text-2xl md:text-3xl text-slate-800 font-bold float-left">
+        Permissions ✨
+      </h1>
+    </div>
+
     <div class="flex justify-end">
       <AppButton
         v-tippy="'Create Permission'"
@@ -68,154 +75,248 @@
           $refs.permissionsTable.downloadCsv((filename = 'permissions.csv'))
         "
       >
-        <template #text> Download </template>
+        <template #text> Download</template>
       </AppButton>
     </div>
-
-    <v-client-table
-      v-if="dataReady"
-      ref="permissionsTable"
-      :key="permissionsTableKey"
-      :data="permissionsData"
-      :columns="tableColumns"
-      :options="tableOptions"
+    <div
+      class="bg-white shadow-lg rounded-sm border border-slate-200 relative"
+      style="margin: 2%"
     >
-      <template #name="props">
-        <input
-          v-model="props.row.name"
-          v-tippy="'Edit Permission Name'"
-          type="text"
-          class="rounded border-0 bg-transparent text-sm"
-          :class="locked(props.row) ? 'disabled' : ''"
-          :readonly="locked(props.row)"
-          @blur="update('name', props.row)"
-        />
-      </template>
-      <template #slug="props">
-        <input
-          v-model="props.row.slug"
-          v-tippy="'Edit Permission Slug'"
-          type="text"
-          class="rounded border-0 bg-transparent text-sm"
-          :class="locked(props.row) ? 'disabled' : ''"
-          :readonly="locked(props.row)"
-          @blur="update('slug', props.row)"
-        />
-      </template>
-      <template #description="props">
-        <input
-          v-model="props.row.description"
-          v-tippy="'Edit Permission Description'"
-          type="text"
-          class="rounded border-0 bg-transparent text-sm"
-          :class="locked(props.row) ? 'disabled' : ''"
-          :readonly="locked(props.row)"
-          @blur="update('description', props.row)"
-        />
-      </template>
-      <template #roles="props">
-        {{ props.row.roles.length }}
-      </template>
-      <template #users="props">
-        {{ props.row.users.length }}
-      </template>
-      <template #created_at="props">
-        {{
-          props.row.created_at ? parseDisplayDate(props.row.created_at) : null
-        }}
-      </template>
-      <template #updated_at="props">
-        {{
-          props.row.updated_at ? parseDisplayDate(props.row.updated_at) : null
-        }}
-      </template>
-      <template #actions="props">
-        <AppButton
-          :loading="!dataReady"
-          class="mr-2 inline-block rounded px-1 py-1 text-sm font-medium leading-snug leading-snug text-gray-700 shadow-md transition duration-150 ease-in-out hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:shadow-lg dark:text-white"
-          :btn-class="
-            locked(props.row)
-              ? 'bg-transparent focus:bg-transparent active:bg-transparent dark:focus:bg-transparent dark:active:bg-transparent dark:hover:bg-transparent'
-              : 'bg-transparent focus:bg-transparent active:bg-transparent dark:focus:bg-transparent dark:active:bg-transparent dark:hover:bg-transparent'
-          "
-          :btn-hover-class="
-            locked(props.row)
-              ? 'hover:bg-transparent focus:bg-transparent active:bg-transparent dark:focus:bg-transparent dark:active:bg-transparent dark:hover:bg-transparent'
-              : 'hover:bg-transparent focus:bg-transparent active:bg-transparent dark:focus:bg-transparent dark:active:bg-transparent dark:hover:bg-transparent'
-          "
-          :btn-class-dark="
-            locked(props.row)
-              ? 'bg-transparent focus:bg-transparent active:bg-transparent dark:focus:bg-transparent dark:active:bg-transparent dark:hover:bg-transparent'
-              : 'bg-transparent focus:bg-transparent active:bg-transparent dark:focus:bg-transparent dark:active:bg-transparent dark:hover:bg-transparent'
-          "
-          :btn-hover-class-dark="
-            locked(props.row)
-              ? 'hover:bg-transparent focus:bg-transparent active:bg-transparent dark:focus:bg-transparent dark:active:bg-transparent dark:hover:bg-transparent'
-              : 'hover:bg-transparent focus:bg-transparent active:bg-transparent dark:focus:bg-transparent dark:active:bg-transparent dark:hover:bg-transparent'
-          "
-          @click="toggleLock(props.row, false)"
-        >
-          <template #text>
-            <LockClosedIcon
-              v-if="locked(props.row) && dataReady"
-              class="ml-2 mr-2 mt-0 h-4 w-4"
-            />
-            <LockOpenIcon
-              v-if="!locked(props.row) && dataReady"
-              class="ml-2 mr-2 mt-0 h-4 w-4"
-            />
-            <CircleSvg v-if="!dataReady" class="mr-2 h-3 w-3" />
-            <span class="sr-only"
-              >{{ locked(props.row) ? 'Unlock' : 'Lock' }} User Settings</span
-            >
-          </template>
-        </AppButton>
+      <header class="px-5 py-4">
+        <h2 class="font-semibold text-slate-800">All Permissions</h2>
+      </header>
+      <div class="overflow-x-auto">
+        <table class="table-auto w-full divide-y divide-slate-200">
+          <thead
+            class="text-xs font-semibold uppercase text-slate-500 bg-slate-50 border-t border-slate-200"
+          >
+            <tr>
+              <th class="px-2 py-3 whitespace-nowrap w-px">Name</th>
+              <th class="px-2 py-3 whitespace-nowrap w-px">Slug</th>
+              <th class="px-2 py-3 whitespace-nowrap w-px">Description</th>
+              <th class="px-2 py-3 whitespace-nowrap w-px">Roles</th>
+              <th class="px-2 py-3 whitespace-nowrap w-px">Users</th>
+              <th class="px-2 py-3 whitespace-nowrap w-px">Created At</th>
+              <th class="px-2 py-3 whitespace-nowrap w-px">Updated At</th>
+              <th class="px-2 py-3 whitespace-nowrap w-px">Actions</th>
+            </tr>
+          </thead>
+          <tbody class="text-sm">
+            <tr v-for="row in permissionsData" :key="row.id">
+              <td class="px-2 py-3 whitespace-nowrap w-px">{{ row.name }}</td>
+              <td class="px-2 py-3 whitespace-nowrap w-px">{{ row.slug }}</td>
+              <td class="px-2 py-3 whitespace-nowrap w-px">
+                {{ row.description }}
+              </td>
+              <td class="px-2 py-3 whitespace-nowrap w-px">
+                {{ row.roles.length }}
+              </td>
+              <td class="px-2 py-3 whitespace-nowrap w-px">
+                {{ row.users.length }}
+              </td>
+              <td class="px-2 py-3 whitespace-nowrap w-px">
+                {{ row.created_at ? parseDisplayDate(row.created_at) : null }}
+              </td>
+              <td class="px-2 py-3 whitespace-nowrap w-px">
+                {{ row.updated_at ? parseDisplayDate(row.updated_at) : null }}
+              </td>
+              <td class="px-2 py-3 whitespace-nowrap w-px">
+                <div
+                  class="inline-flex font-medium rounded-full text-center px-2.5 py-0.5"
+                >
+                  <AppButton
+                    v-tippy="'Edit Permission'"
+                    :disabled="!dataReady"
+                    :loading="!dataReady"
+                    class="mr-2 px-1 py-1 text-sm bg-indigo-500 rounded-md text-white"
+                    @click="triggerEditPermission(row)"
+                  >
+                    <template #text>
+                      <PencilSquareIcon
+                        v-if="dataReady"
+                        class="ml-2 mr-2 mt-0 h-4 w-4"
+                      />
+                      <CircleSvg v-if="!dataReady" class="mr-2 h-3 w-3" />
+                      <span class="sr-only">Edit User</span>
+                    </template>
+                  </AppButton>
 
-        <AppButton
-          v-tippy="'Edit Permission'"
-          warning
-          :disabled="locked(props.row)"
-          :loading="!dataReady"
-          class="mr-2 px-1 py-1 text-sm"
-          @click="triggerEditPermission(props.row)"
-        >
-          <template #text>
-            <PencilSquareIcon v-if="dataReady" class="ml-2 mr-2 mt-0 h-4 w-4" />
-            <CircleSvg v-if="!dataReady" class="mr-2 h-3 w-3" />
-            <span class="sr-only">Edit Permission</span>
-          </template>
-        </AppButton>
+                  <AppButton
+                    v-tippy="'Delete Permission'"
+                    :disabled="!dataReady"
+                    :loading="!dataReady"
+                    class="mr-2 px-1 py-1 text-sm bg-rose-500 rounded-md"
+                    @click="triggerDeletePermission(row)"
+                  >
+                    <template #text>
+                      <TrashIcon
+                        v-if="dataReady"
+                        class="ml-2 mr-2 mt-0 h-4 w-4 text-white"
+                      />
+                      <CircleSvg v-if="!dataReady" class="mr-2 h-3 w-3" />
+                      <span class="sr-only">Delete User</span>
+                    </template>
+                  </AppButton>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
 
-        <AppButton
-          v-tippy="'Delete Permission'"
-          danger
-          :disabled="locked(props.row)"
-          :loading="!dataReady"
-          class="mr-2 px-1 py-1 text-sm"
-          @click="triggerDeletePermission(props.row)"
-        >
-          <template #text>
-            <TrashIcon v-if="dataReady" class="ml-2 mr-2 mt-0 h-4 w-4" />
-            <CircleSvg v-if="!dataReady" class="mr-2 h-3 w-3" />
-            <span class="sr-only">Delete Permission</span>
-          </template>
-        </AppButton>
-      </template>
-      <template #afterBody>
-        <tfoot>
-          <tr>
-            <td colspan="10">
-              <Pagination
-                :pagination="pagination"
-                :offset="4"
-                @paginate="getPermissions"
-              />
-            </td>
-          </tr>
-        </tfoot>
-      </template>
-    </v-client-table>
-    <!-- <AnimatedTableLoader v-if="!dataReady" /> -->
+    <div class="mt-4">
+      <Pagination
+        :pagination="pagination"
+        :offset="4"
+        @paginate="getPermissions"
+      />
+    </div>
+
+    <!--        <v-client-table-->
+    <!--          v-if="dataReady"-->
+    <!--          ref="permissionsTable"-->
+    <!--          :key="permissionsTableKey"-->
+    <!--          :data="permissionsData"-->
+    <!--          :columns="tableColumns"-->
+    <!--          :options="tableOptions"-->
+    <!--        >-->
+    <!--          <template #name="props">-->
+    <!--            <input-->
+    <!--              v-model="props.row.name"-->
+    <!--              v-tippy="'Edit Permission Name'"-->
+    <!--              type="text"-->
+    <!--              class="rounded border-0 bg-transparent text-sm"-->
+    <!--              :class="locked(props.row) ? 'disabled' : ''"-->
+    <!--              :readonly="locked(props.row)"-->
+    <!--              @blur="update('name', props.row)"-->
+    <!--            />-->
+    <!--          </template>-->
+    <!--          <template #slug="props">-->
+    <!--            <input-->
+    <!--              v-model="props.row.slug"-->
+    <!--              v-tippy="'Edit Permission Slug'"-->
+    <!--              type="text"-->
+    <!--              class="rounded border-0 bg-transparent text-sm"-->
+    <!--              :class="locked(props.row) ? 'disabled' : ''"-->
+    <!--              :readonly="locked(props.row)"-->
+    <!--              @blur="update('slug', props.row)"-->
+    <!--            />-->
+    <!--          </template>-->
+    <!--          <template #description="props">-->
+    <!--            <input-->
+    <!--              v-model="props.row.description"-->
+    <!--              v-tippy="'Edit Permission Description'"-->
+    <!--              type="text"-->
+    <!--              class="rounded border-0 bg-transparent text-sm"-->
+    <!--              :class="locked(props.row) ? 'disabled' : ''"-->
+    <!--              :readonly="locked(props.row)"-->
+    <!--              @blur="update('description', props.row)"-->
+    <!--            />-->
+    <!--          </template>-->
+    <!--          <template #roles="props">-->
+    <!--            {{ props.row.roles.length }}-->
+    <!--          </template>-->
+    <!--          <template #users="props">-->
+    <!--            {{ props.row.users.length }}-->
+    <!--          </template>-->
+    <!--          <template #created_at="props">-->
+    <!--            {{-->
+    <!--              props.row.created_at ? parseDisplayDate(props.row.created_at) : null-->
+    <!--            }}-->
+    <!--          </template>-->
+    <!--          <template #updated_at="props">-->
+    <!--            {{-->
+    <!--              props.row.updated_at ? parseDisplayDate(props.row.updated_at) : null-->
+    <!--            }}-->
+    <!--          </template>-->
+    <!--          <template #actions="props">-->
+    <!--            <AppButton-->
+    <!--              :loading="!dataReady"-->
+    <!--              class="mr-2 inline-block rounded px-1 py-1 text-sm font-medium leading-snug leading-snug text-gray-700 shadow-md transition duration-150 ease-in-out hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:shadow-lg dark:text-white"-->
+    <!--              :btn-class="-->
+    <!--                locked(props.row)-->
+    <!--                  ? 'bg-transparent focus:bg-transparent active:bg-transparent dark:focus:bg-transparent dark:active:bg-transparent dark:hover:bg-transparent'-->
+    <!--                  : 'bg-transparent focus:bg-transparent active:bg-transparent dark:focus:bg-transparent dark:active:bg-transparent dark:hover:bg-transparent'-->
+    <!--              "-->
+    <!--              :btn-hover-class="-->
+    <!--                locked(props.row)-->
+    <!--                  ? 'hover:bg-transparent focus:bg-transparent active:bg-transparent dark:focus:bg-transparent dark:active:bg-transparent dark:hover:bg-transparent'-->
+    <!--                  : 'hover:bg-transparent focus:bg-transparent active:bg-transparent dark:focus:bg-transparent dark:active:bg-transparent dark:hover:bg-transparent'-->
+    <!--              "-->
+    <!--              :btn-class-dark="-->
+    <!--                locked(props.row)-->
+    <!--                  ? 'bg-transparent focus:bg-transparent active:bg-transparent dark:focus:bg-transparent dark:active:bg-transparent dark:hover:bg-transparent'-->
+    <!--                  : 'bg-transparent focus:bg-transparent active:bg-transparent dark:focus:bg-transparent dark:active:bg-transparent dark:hover:bg-transparent'-->
+    <!--              "-->
+    <!--              :btn-hover-class-dark="-->
+    <!--                locked(props.row)-->
+    <!--                  ? 'hover:bg-transparent focus:bg-transparent active:bg-transparent dark:focus:bg-transparent dark:active:bg-transparent dark:hover:bg-transparent'-->
+    <!--                  : 'hover:bg-transparent focus:bg-transparent active:bg-transparent dark:focus:bg-transparent dark:active:bg-transparent dark:hover:bg-transparent'-->
+    <!--              "-->
+    <!--              @click="toggleLock(props.row, false)"-->
+    <!--            >-->
+    <!--              <template #text>-->
+    <!--                <LockClosedIcon-->
+    <!--                  v-if="locked(props.row) && dataReady"-->
+    <!--                  class="ml-2 mr-2 mt-0 h-4 w-4"-->
+    <!--                />-->
+    <!--                <LockOpenIcon-->
+    <!--                  v-if="!locked(props.row) && dataReady"-->
+    <!--                  class="ml-2 mr-2 mt-0 h-4 w-4"-->
+    <!--                />-->
+    <!--                <CircleSvg v-if="!dataReady" class="mr-2 h-3 w-3" />-->
+    <!--                <span class="sr-only"-->
+    <!--                  >{{ locked(props.row) ? 'Unlock' : 'Lock' }} User Settings</span-->
+    <!--                >-->
+    <!--              </template>-->
+    <!--            </AppButton>-->
+
+    <!--            <AppButton-->
+    <!--              v-tippy="'Edit Permission'"-->
+    <!--              warning-->
+    <!--              :disabled="locked(props.row)"-->
+    <!--              :loading="!dataReady"-->
+    <!--              class="mr-2 px-1 py-1 text-sm"-->
+    <!--              @click="triggerEditPermission(props.row)"-->
+    <!--            >-->
+    <!--              <template #text>-->
+    <!--                <PencilSquareIcon v-if="dataReady" class="ml-2 mr-2 mt-0 h-4 w-4" />-->
+    <!--                <CircleSvg v-if="!dataReady" class="mr-2 h-3 w-3" />-->
+    <!--                <span class="sr-only">Edit Permission</span>-->
+    <!--              </template>-->
+    <!--            </AppButton>-->
+
+    <!--            <AppButton-->
+    <!--              v-tippy="'Delete Permission'"-->
+    <!--              danger-->
+    <!--              :disabled="locked(props.row)"-->
+    <!--              :loading="!dataReady"-->
+    <!--              class="mr-2 px-1 py-1 text-sm"-->
+    <!--              @click="triggerDeletePermission(props.row)"-->
+    <!--            >-->
+    <!--              <template #text>-->
+    <!--                <TrashIcon v-if="dataReady" class="ml-2 mr-2 mt-0 h-4 w-4" />-->
+    <!--                <CircleSvg v-if="!dataReady" class="mr-2 h-3 w-3" />-->
+    <!--                <span class="sr-only">Delete Permission</span>-->
+    <!--              </template>-->
+    <!--            </AppButton>-->
+    <!--          </template>-->
+    <!--          <template #afterBody>-->
+    <!--            <tfoot>-->
+    <!--              <tr>-->
+    <!--                <td colspan="10">-->
+    <!--                  <Pagination-->
+    <!--                    :pagination="pagination"-->
+    <!--                    :offset="4"-->
+    <!--                    @paginate="getPermissions"-->
+    <!--                  />-->
+    <!--                </td>-->
+    <!--              </tr>-->
+    <!--            </tfoot>-->
+    <!--          </template>-->
+    <!--        </v-client-table>-->
+    <AnimatedTableLoader v-if="!dataReady" />
 
     <PermissionFormModal
       :key="permissionFormKey"
@@ -245,11 +346,13 @@ import PermissionFormModal from '@components/roles/PermissionFormModal.vue';
 import CircleSvg from '@components/CircleSvg.vue';
 import Pagination from '@components/Pagination.vue';
 import PerPage from '@components/PerPage.vue';
+import AnimatedTableLoader from '@/components/loaders/AnimatedTableLoader.vue';
 // import AnimatedTableLoader from '@components/loaders/AnimatedTableLoader.vue';
 
 export default {
   name: 'Permissions',
   components: {
+    AnimatedTableLoader,
     ChevronRightIcon,
     PermissionFormModal,
     CircleSvg,
@@ -594,5 +697,14 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+input:focus,
+select:focus,
+textarea:focus,
+button:focus,
+option:focus {
+  outline: none !important;
+  border: none !important;
+}
+</style>
 <style lang="scss" scoped></style>

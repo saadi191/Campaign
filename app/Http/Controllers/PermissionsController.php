@@ -10,26 +10,43 @@ use App\Models\Permission;
 use App\Models\Role;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 class PermissionsController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth:sanctum');
-        $this->middleware('role:super.admin');
-
-        try {
-            ob_start('ob_gzhandler');
-        } catch (\Exception $e) {
-            //
-        }
-    }
+//    public function __construct()
+//    {
+//        $this->middleware('auth:sanctum');
+//        $this->middleware('role:super.admin');
+//
+//
+//        try {
+//            ob_start('ob_gzhandler');
+//        } catch (\Exception $e) {
+//            //
+//        }
+//    }
 
     public function permissions(GetPermissionsRequest $request)
     {
         return new PermissionsCollection(config('roles.models.permission')::all());
     }
+
+    public function getPermissions()
+    {
+        $userId = auth()->user()->id;
+
+        return DB::table('permissions')
+            ->join('permission_role', 'permissions.id', '=', 'permission_role.permission_id')
+            ->join('roles', 'permission_role.role_id', '=', 'roles.id')
+            ->join('role_user', 'roles.id', '=', 'role_user.role_id')
+            ->where('role_user.user_id', $userId)
+            ->select('permissions.id', 'permissions.name', 'permissions.slug', 'permissions.description', 'permissions.model', DB::raw('GROUP_CONCAT(roles.name) as role_names'))
+            ->groupBy('permissions.id', 'permissions.name', 'permissions.slug', 'permissions.description', 'permissions.model')
+            ->get();
+    }
+
 
     public function permissionsPaginated(GetPermissionsRequest $request)
     {
@@ -50,10 +67,10 @@ class PermissionsController extends Controller
         $validated = $request->validated();
 
         $permission = Permission::create([
-            'name'          => $validated['name'],
-            'slug'          => $validated['slug'],
-            'description'   => $validated['description'],
-            'model'         => $validated['model'],
+            'name' => $validated['name'],
+            'slug' => $validated['slug'],
+            'description' => $validated['description'],
+            'model' => $validated['model'],
         ]);
 
         if ($permission) {
@@ -66,14 +83,14 @@ class PermissionsController extends Controller
         ]);
 
         return response()->json([
-            'permission'  => $permission,
+            'permission' => $permission,
         ]);
     }
 
     public function updatePermission(UpdatePermissionRequest $request, Permission $permission)
     {
         $request->validate([
-            'slug' => 'required|string|unique:permissions,slug,'.$permission->id,
+            'slug' => 'required|string|unique:permissions,slug,' . $permission->id,
         ]);
 
         $validated = $request->validated();
@@ -100,7 +117,7 @@ class PermissionsController extends Controller
         ]);
 
         return response()->json([
-            'permission'  => $permission,
+            'permission' => $permission,
         ]);
     }
 

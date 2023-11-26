@@ -150,7 +150,7 @@
                   </svg>
                   <span class="text-sm">
                     To support you during the pandemic super pro features are
-                    free until March 31st.
+                    free until March 31st
                   </span>
                 </div>
               </div>
@@ -242,7 +242,7 @@ export default {
       try {
         await this.appLogin(this.form).then((response) => {
           this.loading = false;
-          // this.$router.push({ name: 'home' })
+          this.$router.push({ name: 'view.dashboard' });
         });
       } catch (e) {
         if (e.status === 422) {

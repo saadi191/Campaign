@@ -44,27 +44,147 @@ class PermissionsTableSeeder extends Seeder
                 'model'       => 'Permission',
             ],
             [
-                'name'        => 'Can View Articles',
-                'slug'        => 'view.articles',
-                'description' => 'Can view articles',
+                'name'        => 'Can View Roles',
+                'slug'        => 'view.roles',
+                'description' => 'Can View Roles',
+                'model'       => 'Permission',
+            ],
+
+            [
+                'name'        => 'Can Delete Roles',
+                'slug'        => 'delete.roles',
+                'description' => 'Can Delete Roles',
+                'model'       => 'Permission',
+            ],
+
+            [
+                'name'        => 'Can Edit Roles',
+                'slug'        => 'edit.roles',
+                'description' => 'Can Edit Roles',
+                'model'       => 'Permission',
+            ],
+
+            [
+                'name'        => 'Can Create Roles',
+                'slug'        => 'create.roles',
+                'description' => 'Can Create Roles',
+                'model'       => 'Permission',
+            ],
+//            [
+//                'name'        => 'Can View Articles',
+//                'slug'        => 'view.articles',
+//                'description' => 'Can view articles',
+//                'model'       => 'Permission',
+//            ],
+//            [
+//                'name'        => 'Can Create Articles',
+//                'slug'        => 'create.articles',
+//                'description' => 'Can create new articles',
+//                'model'       => 'Permission',
+//            ],
+//            [
+//                'name'        => 'Can Edit Articles',
+//                'slug'        => 'edit.articles',
+//                'description' => 'Can edit articles',
+//                'model'       => 'Permission',
+//            ],
+//            [
+//                'name'        => 'Can Delete Articles',
+//                'slug'        => 'delete.articles',
+//                'description' => 'Can delete articles',
+//                'model'       => 'Permission',
+//            ],
+
+            [
+                'name'        => 'Can View Moderation',
+                'slug'        => 'view.moderation',
+                'description' => 'Can View Moderation',
+                'model'       => 'Permission',
+            ],
+
+            [
+                'name'        => 'Can View Moderation Pending',
+                'slug'        => 'view.moderation.pending',
+                'description' => 'Can View Moderation Pending',
+                'model'       => 'Permission',
+            ],
+
+            [
+                'name'        => 'Can View Moderation Approved',
+                'slug'        => 'view.moderation.approved',
+                'description' => 'Can View Moderation Approved',
+                'model'       => 'Permission',
+            ],
+
+            [
+                'name'        => 'Can View Moderation Rejected',
+                'slug'        => 'view.moderation.rejected',
+                'description' => 'Can View Moderation Rejected',
+                'model'       => 'Permission',
+            ],
+
+            [
+                'name'        => 'Can View Winners',
+                'slug'        => 'view.winners',
+                'description' => 'Can View Winners',
+                'model'       => 'Permission',
+            ],
+
+            [
+                'name'        => 'Can View Winners Claimed',
+                'slug'        => 'view.winners.claimed',
+                'description' => 'Can View Claimed',
                 'model'       => 'Permission',
             ],
             [
-                'name'        => 'Can Create Articles',
-                'slug'        => 'create.articles',
-                'description' => 'Can create new articles',
+                'name'        => 'Can View Winners Pending',
+                'slug'        => 'view.winners.pending',
+                'description' => 'Can View Pending',
+                'model'       => 'Permission',
+            ],
+
+            [
+                'name'        => 'Can View HelpDesk',
+                'slug'        => 'view.helpdesk',
+                'description' => 'Can View HelpDesk',
                 'model'       => 'Permission',
             ],
             [
-                'name'        => 'Can Edit Articles',
-                'slug'        => 'edit.articles',
-                'description' => 'Can edit articles',
+                'name'        => 'Can View Exports',
+                'slug'        => 'view.exports',
+                'description' => 'Can View Exports',
                 'model'       => 'Permission',
             ],
             [
-                'name'        => 'Can Delete Articles',
-                'slug'        => 'delete.articles',
-                'description' => 'Can delete articles',
+                'name'        => 'Can View Inventory',
+                'slug'        => 'view.inventory',
+                'description' => 'Can View Inventory',
+                'model'       => 'Permission',
+            ],
+            [
+                'name'        => 'Can View Statistics',
+                'slug'        => 'view.statistics',
+                'description' => 'Can View Statistics',
+                'model'       => 'Permission',
+            ],
+
+            [
+                'name'        => 'Can View Dashboard',
+                'slug'        => 'view.dashboard',
+                'description' => 'Can View Dashboard',
+                'model'       => 'Permission',
+            ],
+
+            [
+                'name'        => 'Can View Participants',
+                'slug'        => 'view.participants',
+                'description' => 'Can View Participants',
+                'model'       => 'Permission',
+            ],
+            [
+                'name'        => 'Can View Permissions',
+                'slug'        => 'view.permissions',
+                'description' => 'Can View Permissions',
                 'model'       => 'Permission',
             ],
         ];

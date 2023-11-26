@@ -164,7 +164,7 @@
         <AppButton
           v-if="changed"
           :disabled="loading || submitting || !changed"
-          class="float-left border border-green-800 bg-transparent bg-transparent text-sm font-medium text-green-800 text-white shadow-md transition duration-150 ease-in-out hover:border-green-900 hover:bg-green-900 hover:text-white hover:shadow-lg focus:shadow-lg active:shadow-lg dark:hover:border-green-800 dark:hover:bg-green-800"
+          class="float-left border border-green-800 bg-indigo-500 text-sm font-medium text-white shadow-md transition duration-150 ease-in-out hover:border-green-900 hover:bg-green-900 hover:text-white hover:shadow-lg focus:shadow-lg active:shadow-lg dark:hover:border-green-800 dark:hover:bg-green-800"
           @click="submit"
         >
           <template #text>
@@ -174,15 +174,15 @@
                   ? 'Creating'
                   : 'Create'
                 : submitting
-                ? 'Updating'
-                : 'Update'
+                  ? 'Updating'
+                  : 'Update'
             }}
             <span v-if="submitting" class="fa fa-circle-notch fa-spin ml-3" />
           </template>
         </AppButton>
         <AppButton
           :disabled="loading || submitting"
-          class="float-right border border-gray-700 bg-transparent bg-transparent text-sm font-medium text-gray-700 text-white shadow-md transition duration-150 ease-in-out hover:border-gray-700 hover:bg-gray-700 hover:text-white hover:shadow-lg focus:shadow-lg active:shadow-lg dark:hover:bg-gray-700"
+          class="float-right border border-gray-700 bg-rose-500 text-sm font-medium text-white shadow-md transition duration-150 ease-in-out hover:border-gray-700 hover:bg-gray-700 hover:text-white hover:shadow-lg focus:shadow-lg active:shadow-lg dark:hover:bg-gray-700"
           @click="closeModal"
         >
           <template #text>
